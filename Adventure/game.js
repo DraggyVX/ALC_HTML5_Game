@@ -11,24 +11,42 @@ prompt("What type of pokemon?"); //A written response
 //document.write(playerName);
 //confirm(playerName + " what way do you want to go?");
 
+
 Game();
 
 function Game() {
     var PC = prompt("What is your name?");
-    var input = document.getElementById('user-input');
-    var output = document.getElementById("log-output");
+    var input = document.getElementById('user-input'); 
+    var output = document.getElementById('log-output');
     
-    document.output.innerHTML = PC; //"Hello " + PC + " I am the ghost that will be guilding you on your journey through this world.";
+    var game = document.createElement("theGame");
+    var t = document.createTextNode("Hello " + PC + " I am the ghost that will be guilding you on your journey through this world!"); 
+    game.appendChild(t);
+    document.getElementById('log-output').appendChild(game);
+    document.getElementById("user-input").value;
+    car newListElement = document.createElement("li");
+    
+   // document.getElementById('log2').innerHTML = "Wakey wakey! its time to wake up!";
+    //document.getElementById('log3')
+    
 }
 
 
 
-
-
-
-
-
 /*
+
+if(document.getElementById('log7') != null){
+            document.getElementById('log1').innerHTML = document.getElementById('log2');
+            document.getElementById('log2').innerHTML = document.getElementById('log3');
+            document.getElementById('log3').innerHTML = document.getElementById('log4');
+            document.getElementById('log4').innerHTML = document.getElementById('log5');
+            document.getElementById('log5').innerHTML = document.getElementById('log6');
+            document.getElementById('log6').innerHTML = document.getElementById('log7');
+            document.getElementById('log7').innerHTML == null;
+        }
+
+
+
 function Node(data, N, E, S, W) {
     this.data = null;
     this.N = null;
