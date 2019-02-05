@@ -27,6 +27,9 @@ article {
   background-color: #f1f1f1;
   
 }
+#log-output {
+    
+}
 
 input {
     float: bottom;
@@ -35,6 +38,7 @@ input {
     height: 60px;
     font-size: 40px;
 }
+
 
 /* Clear floats after the columns */
 section:after {
@@ -57,4 +61,9 @@ footer {
     width: 100%;
     height: auto;
   }
+}
+#unorderedList {
+    list-style: none;
+    overflow: scroll;
+    height: 130px;
 }
