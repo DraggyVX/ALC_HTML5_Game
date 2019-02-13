@@ -1,7 +1,10 @@
 var input;
-var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 100, 150, 666];
+var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 100, 150, 200, 666];
 var weapon = ["fist", "basic-sword", "club"];
 var items = ["lanturn"];
+var deathCounter = 0;
+var acheievments = ["died-more-than-10", "died-more-than-100"];
+
 Game();
 
 //Whenever the user enters it returns their answer
@@ -20,6 +23,7 @@ Game();
         document.getElementById("user-input").value = ""; 
         //Goes to bottom of scroll bar
         preformAction();
+        Achievement();
         newListElement.scrollIntoView(); 
         }
     }
@@ -29,7 +33,12 @@ function Game() {
     var PC = prompt("What is your name?");
     Output("Hello " + PC + " I am the ghost that will be guilding you on your journey through this world!");
     Output("Wakey Wakey its time to get up!");
-    Output("You open your eyes, you are sitting under a tree. You look around and notice you are in a different world! Above you soars a giant red dragon. He seems to ignore you for you are just a tiny ant to him. You look around and in front of you going from west to east is a dirt road. Past the road looks to be a swamp. On the dirt road going pretty fast is a wagon being pulled by a horse. The road leads to what seems to be a big town filled with activity its only about a mile away from you. You look behind you and see you are under the only tree in a giant plains. You see off to the distance to the east a forest.");
+    Output("You open your eyes, you are sitting under a tree. You look around and notice you are in a different world! Above you soars a giant red dragon. He seems to ignore you for you are just a tiny ant to him. You look around and in front of you going from east to west is a dirt road. Past the road is a swamp. On the dirt road going pretty fast is a wagon being pulled by a horse. The road leads to a big town. You look behind you and see you are under the only tree in a giant plain. You look to the east and see a lush forest.");
+    Output("-go north (to the road)");
+    Output("-go east (to the town)");
+    Output("-go south (to the plains)");
+    Output("-go west (to the forest)");
+    Output("-go back to sleep");
     room = 0;
 }
 
@@ -39,24 +48,30 @@ function preformAction()
     switch(room) 
     {
         case 0: //under the tree (Starting place)
-                switch (input) 
+                switch (input.toLowerCase()) 
                     {
                         case "sleep":
-                        case "Sleep":
                         case "go back to sleep":
                         case "go to sleep":
                         case "bed time":
-                        case "Go to sleep":
-                            Output("You go back to sleep. Zzzz.... Zzzz.... Zzz.... ..... .... You have died.");
-                            room = 666;
+                            if (deathCounter > 1) {
+                                Output("You go back to sleep...again...and you die...again... Are you stupid!?");
+                                Output("Restart?");
+                                Output("Quit?");
+                                room = 666;
+                            }
+                            else {
+                                Output("You go back to sleep. Zzzz.... Zzzz.... Zzz.... ..... .... You have died. Wow you died right off the start?");
+                                Output("Restart?");
+                                Output("Quit?");
+                                room = 666;
+                                deathCounter++;
+                            }         
                         break;
 
                         case "north":                    
                         case "go north":
                         case "n":
-                        case "North":
-                        case "Go North":
-                        case "N":
                             Output("You go north and approach the road. What do you want to do now?");
                             Output("-Go around the swamp?");
                             Output("-Go into the swamp?");
@@ -77,27 +92,32 @@ function preformAction()
 
                         case "south":
                         case "go south":
+                        case "s":
                             Output("You walk into the grassy fields. You can see faintly to the far south is a giant mountain range. You can see to the east a town. You can see to the west a massive forest.");
                             room = 100;
                         break;
                             
                         case "west":
                         case "go west":
+                        case "w":
                             Output("You go towards the forest to the west. There is a road that leads into the forest. On the side of the road is an old ruined carriage.");
                             room = 150;
+                        break;
+                            
+                        case "investigate tree":
+                        Output("You start moving around the tree looking at it.");
+                        Output("Hello sir, why are you looking at me like that?");
+                        room = 200;
                         break;
                     }
             break;
 
         case 1: //On the road
-            switch (input)
+            switch (input.toLowerCase())
                 {
-                    case "Go around the swamp": //towards old house
                     case "go around the swamp":
                     case "around":
-                    case "Around":
                     case "go around":
-                    case "Go around":
                         Output("You start going around the swamp and soon you can see an old looking house.");
                         Output("-Go to old looking house");
                         Output("-Go around old looking house");
@@ -106,7 +126,7 @@ function preformAction()
                         room = 2;
                     break;
                         
-                    case "Go into the swamp": //death
+                    case "go into the swamp": //death
                     case "go to swamp":
                     case "go into the swamp":
                         Output("You get stuck in mud giant leeches come out from the water and eat you alive. *You have died*");
@@ -114,7 +134,7 @@ function preformAction()
                         room = 666;
                     break;
                         
-                    case "Go east on the road": //towards the town
+                    case "go east on the road": //towards the town
                     case "go east":
                     case "east":
                         Output("You follow the road and approach the town. The town is surrounded by a huge wall the only entrance you can see is through a giant gate.");
@@ -125,7 +145,7 @@ function preformAction()
                         room = 50;
                     break;
                         
-                    case "Go west on the road": //towards the forest
+                    case "go west on the road": //towards the forest
                     case "go west":
                     case "west":
                         Output("You go west on the road and approach a forest. On the side of the road is an old ruined carriage.");
@@ -138,9 +158,11 @@ function preformAction()
         break;
             
         case 2: //go around the swamp
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                 case "go to old looking house":
+                case "old looking house":
+                case "go to house":
                     Output("You go to the old looking house. There is a front door and a window next to it. The old looking house looks old and abandoned. There’s a weak looking door.");
                     Output("-Break the door down");
                     Output("-Try to open door");
@@ -169,18 +191,20 @@ function preformAction()
         break;
             
         case 3: //go to old looking house
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
-                case "Break the door down":
+                case "break the door down":
+                case "destroy door":
                     Output("");
                 break;
                     
-                case "Try to open door":
-                    
+                case "try to open door":
+                    Output("You try to open the door but it doesn't budge.");
+                    room = 3;
                 break;
                 
-                case "Go through the window":
-                    
+                case "go through the window":
+                    Output("You break through the window. You look around this old house and see you’re in a small room with a cauldron in the middle with shelves along the walls. The shelves have a bunch of stuff ranging from books to potions.");
                 break;    
                     
                 case "look around old looking house":
@@ -190,109 +214,120 @@ function preformAction()
         break;
             
         case 4: //go around old looking house
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 5: //look around old looking house
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 6: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 7: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 8: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 9: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 10: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 11: 
-        switch (input) 
+        switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
         case 50: //approaching town (go east from start)
-            switch (input) 
+            switch (input.toLowerCase()) 
                 {
                     case "go around the wall":
-                        
+                        Output("");
                     break;
                     
                     case "try going through the gate":
-                        
+                        Output("");
                     break;
                         
                     case "sneak into a carriage":
-                        
+                        Output("");
                     break;
                         
                     case "go back to your tree":
-
+                        Output("");
                     break;
                         
                 }
         break;
             
         case 100: //Into the plains (go south from start)
-            switch (input) 
+            switch (input.toLowerCase()) 
                 {
                         
                 }
         break;
             
         case 150: //
-            switch (input)
+            switch (input.toLowerCase())
                 {
                         
                 }
         break;
         
-            
+        case 200:
+            switch (input.toLowerCase())
+                {
+                    case "sorry":
+                        Output("It's okay I am the only tree that can talk in this region. My fellow breathren have fallen to the darn humans who chopped us down and used us for there houses.");
+                        Output("I am very old now and am near the end of the line. I would like you to have this.");
+                        Output("A sword seems to appear from thin air *Sword of the fallen king*");
+                        room 0;
+                    break;
+                }
             
             
         case 666: //When you die
-            switch (input)
+            switch (input.toLowerCase())
                 {
                     case "restart":
                     case "start over":
-                    case "Restart":
-                    case "Start Over":
                         Output("Darn you lost... restarting.... Good luck!");
-                        room = 0;
+                        Game();
+                    break;
+                        
+                    case "quit":
+                        Output("You quitter...");
                     break;
                 }
         break;
@@ -317,4 +352,15 @@ function Output(input) {
     element.appendChild(newListElement);
     //resets user-input to blank
     document.getElementById("user-input").value = ""; 
+}
+
+function Achievement() {
+    if (deathCounter == 1 && acheievments != "died-more-than-10") {
+        var newListElement = document.createElement("li");
+        var node = document.createTextNode("Die more than 10 times.");
+        newListElement.appendChild(node);
+        var element = document.getElementById("achievements");
+        element.appendChild(newListElement);
+        acheievments = "died-more-than-10";
+    }
 }
