@@ -1,15 +1,14 @@
 var input;
 var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 100, 150, 200, 666];
-var fist = false; //will make a function will all weapons and items later 
-var basicSword = false;
-var club = false;
-var swordOfTree = false;
-var items = ["lantern"];
+var inventory = new Array(10);
+var skills = new Array(20);
+var inventorySize = new Array(5);
 var deathCounter = 0;
 var acheievments = ["died-more-than-10", "died-more-than-100", "Friend-of-trees"];
 var element = document.getElementById("unorderedList");
 var treeAlive = true;
 
+Reset();
 Game();
 
 //Whenever the user enters it returns their answer
@@ -29,6 +28,7 @@ Game();
         preformAction();
         Achievement();
         newListElement.scrollIntoView(); 
+        InventoryManage();
     }
 }
 
@@ -50,9 +50,10 @@ function Game() {
 function preformAction() {
     switch(room) 
     {
-        case 0: //under the tree (Starting place)
-                switch (input.toLowerCase()) 
-                    {
+        //under the tree (Starting place)
+        case 0: 
+            switch (input.toLowerCase()) 
+                {
                         case "sleep":
                         case "go back to sleep":
                         case "go to sleep":
@@ -108,17 +109,20 @@ function preformAction() {
                         break;
                             
                         case "investigate tree":
-                        if (treeAlive = true) {
+                        if (treeAlive == true) {
                             Output("You start moving around the tree looking at it.");
                             Output("What do you want? Why are you looking at me like that?");
                             room = 200;
                         }
-                        Output("Sorry thats not gonna work again ;)");
+                        else
+                            Output("Sorry thats not gonna work again ;)"); 
+                        
                         break;
                     }
-            break;
+        break;
 
-        case 1: //On the road
+        //On the road
+        case 1: 
             switch (input.toLowerCase())
                 {
                     case "go around the swamp":
@@ -162,10 +166,11 @@ function preformAction() {
                     break;
                 }
         break;
-            
-        case 2: //go around the swamp
-        switch (input.toLowerCase()) 
-            {
+           
+        //go around the swamp
+        case 2: 
+            switch (input.toLowerCase()) 
+                {
                 case "go to old looking house":
                 case "old looking house":
                 case "go to house":
@@ -178,6 +183,7 @@ function preformAction() {
                 break;
                 
                 case "go around old looking house":
+                case "go around":
                     Output("You go around the old looking house. You can see swamp as far as the eye can see.");
                     Output("-Keep going?");
                     Output("-Go back to old house?");
@@ -185,6 +191,8 @@ function preformAction() {
                 break;
                     
                 case "look around old looking hosue":
+                case "look":
+                case "look around":
                     Output("You look around the old looking house. The old looking house looks old and abandoned. There is a front door and a window next to it. You notice there is a hatch on the side of the old looking house.");
                     Output("-Open hatch");
                     Output("-break hatch");
@@ -195,62 +203,100 @@ function preformAction() {
                 break;
             }
         break;
-            
-        case 3: //go to old looking house
-        switch (input.toLowerCase()) 
-            {
+           
+        //go to old looking house
+        case 3: 
+            switch (input.toLowerCase()) 
+                {
                 case "break the door down":
                 case "destroy door":
-                    Output("");
-                    Output("");
-                    Output("");
-                    
+                    Output("You break down the door and see you’re in a small room with a cauldron in the middle with shelves along the walls. The shelves have a bunch of stuff ranging from books to potions.");
+                    Output("-take potions");
+                    Output("-take books");
+                    Output("-read books");
+                    room = 6;
                 break;
                     
                 case "try to open door":
+                case "open door":
                     Output("You try to open the door but it doesn't budge.");
-                    Output("");
-                    Output("");
+                    Output("-break down door");
+                    Output("-try opening door again");
+                    Output("-go through the window");
+                    Output("-look around old looking house");
                     room = 3;
                 break;
                 
                 case "go through the window":
                     Output("You break through the window. You look around this old house and see you’re in a small room with a cauldron in the middle with shelves along the walls. The shelves have a bunch of stuff ranging from books to potions.");
-                    Output("");
-                    Output("");
-                    Output("");
+                    Output("-take potions");
+                    Output("-take books");
+                    Output("-read books");
+                    room = 6;
                 break;    
                     
                 case "look around old looking house":
                     Output("You look around the old looking house. The old looking house looks old and abandoned. There is a front door and a window next to it. You notice there is a hatch on the side of the old looking house.");
-                    Output("");
-                    Output("");
-                    Output("");
+                    Output("-break down front door");
+                    Output("-go through the window");
+                    Output("-try opening hatch");
+                    Output("-break down hatch");
+                    room = 7;
                 break;
             }
         break;
-            
-        case 4: //go around old looking house
+           
+        //go around old looking house
+        case 4: 
         switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
-        case 5: //look around old looking house
+        //look around old looking house
+        case 5: 
         switch (input.toLowerCase()) 
             {
                     
             }
         break;
             
-        case 6: 
+        //inside the old house
+        case 6:
         switch (input.toLowerCase()) 
             {
+                case "take potions":
+                    if (inventory[1] != true) {
+                        Output("You take the potions");
+                        inventory[1] = true;
+                    }
+                    else
+                        Output("You already took the potions... idiot..");
+                    room = 6;
+                break;
                     
+                case "take books":
+                    if (inventory[2] != true) {
+                        Output("You take the books");
+                        inventory[2] = true;
+                    }
+                    else 
+                        Output("You already took the books... idiot..");
+                    room = 6;
+                break;
+                    
+                case "read books":
+                    Output("You read the books. They are about potion making.");
+                    Output("*You gained potion making knowledge*");
+                    
+                    room = 6;
+                break;
+                
             }
         break;
             
+        //side of the old house
         case 7: 
         switch (input.toLowerCase()) 
             {
@@ -340,13 +386,21 @@ function preformAction() {
                 {
                     case "looking at your beauty":
                     case "admiring your trunk":
+                    case "sorry":
                         Output("I am the only tree that can talk in this region. My fellow breathren have fallen to the darn humans who chopped us down and used us for there houses.");
                         Output("I am very old now and am near the end of the line. I would like you to have this.");
-                        Output("A sword seems to appear from thin air *Sword of the fallen king*");
-                        swordOfTree = true;
+                        Output("A sword seems to appear from thin air. It has runes along the blade. The tree goes on a long tangent on how he got the sword and ends with him telling you the swords name. *Sword of the fallen king*");
+                        Output("You have obtained *Sword of the fallen king*");
+                        inventroy[1] = true;
                         treeAlive = false;
+                        Output("-go north (to the road)");
+                        Output("-go east (to the town)");
+                        Output("-go south (to the plains)");
+                        Output("-go west (to the forest)");
+                        Output("-go back to sleep");
                         room = 0;
                     break;
+                        
                     default:
                         Output("You greedy human!! DIE! *You have died*");
                         Output("-restart?");
@@ -417,3 +471,130 @@ function Achievement() {
         swordOfTree = false;
     }
 }
+
+function Reset() {
+    //makes the array for all the items in your inventory
+    for (var i = 0; i < inventory.length; ++i) { 
+            inventory[i] = false; 
+    }
+
+    //makes an array for inventorySize
+    for (var i = 0; i < inventorySize.length; ++i) { 
+            inventorySize[i] = false; 
+    }
+
+    //makes an array for skills
+    for (var i = 0; i < skills.length; ++i) { 
+            skills[i] = false; 
+    }
+}
+
+function InventoryManage(inventory) {
+    //Inventory at 0 is the BladeOfTheRuinedKing
+    var size = 0;
+    var item1, item2, item3, item4, item5 = null;
+    //Looks for the amount of stuff in your inventory
+    for (var i = 0; i < inventory.length; ++i){
+        if (inventory[i] != false)
+            {
+                size++;
+            }
+    }
+    //sets items to values
+    if (size < 6){
+        for (var i = 0; i < inventory.length; ++i){
+        if (inventory[i] != false)
+            {
+                if (item1 == null){
+                    item1 = inventory[i];
+                }
+                else if (item2 == null){
+                    item2 = inventory[i];
+                }
+                else if (item3 == null){
+                    item3 = inventory[i];
+                }
+                else if (item4 == null){
+                    item4 = inventory[i];
+                }
+                else if (item5 == null){
+                    item5 = inventory[i];
+                }
+            }
+        }
+    }
+    //makes sure you have less than 5 items then outputs the items on screen
+    switch(size) {
+        case 0:
+            var node = document.getElementById("item1");
+            switch(item1) {
+                case 0:
+                    node.innerHTML("Sword of the Ruined King");
+                break;
+                    
+                case 1:
+                
+                break;
+                    
+                case 2:
+                
+                break;
+                    
+                case 3:
+                
+                break;
+                    
+                case 4:
+                
+                break;
+                    
+                case 5:
+                
+                break;
+                    
+                case 6:
+                
+                break;
+                    
+                case 7:
+                
+                break;
+                    
+                case 8:
+                
+                break;
+                    
+                case 9:
+                
+                break;
+                
+                case 10:
+                    
+                break;
+            }
+             
+        break;
+            
+        case 1:
+                
+        break;
+            
+        case 2:
+                
+        break;
+            
+        case 3:
+                
+        break;
+            
+        case 4:
+                
+        break;
+            
+        default:
+            Output("Your inventory is full!");
+        break;
+    }
+}
+    
+
