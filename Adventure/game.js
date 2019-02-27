@@ -1,13 +1,14 @@
 var input;
 var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 100, 150, 200, 666];
-var inventory = new Array(10);
 var skills = new Array(20);
-var inventorySize = new Array(5);
+var inventory = ["BladeoftheRuinedking", "Sword"];
+var BladeoftheRuinedking = false;
 var deathCounter = 0;
 var acheievments = ["died-more-than-10", "died-more-than-100", "Friend-of-trees"];
 var element = document.getElementById("unorderedList");
 var treeAlive = true;
-
+var swordOfTree = false;
+var doorToHouse = true;
 Reset();
 Game();
 
@@ -27,8 +28,9 @@ Game();
         //Goes to bottom of scroll bar
         preformAction();
         Achievement();
-        newListElement.scrollIntoView(); 
         InventoryManage();
+        newListElement.scrollIntoView(); 
+        
     }
 }
 
@@ -248,18 +250,72 @@ function preformAction() {
            
         //go around old looking house
         case 4: 
-        switch (input.toLowerCase()) 
-            {
-                    
-            }
+            switch (input.toLowerCase()) 
+                {
+                    case "keep going":
+                        Output("You keep going straight. You are walking when all of sudden your foot hits something hard. You look down and see a skull. You look up and see a giant snake strike you straight in the chest. *You have died*");
+                        Output("-Restart?");
+                        Output("-Quit?");
+                        room = 666;
+                    break;
+
+                    case "go back":
+                        Output("You go to the old looking house. There is a front door and a window next to it. The old looking house looks old and abandoned. There’s a weak looking door.");
+                        Output("-Break the door down");
+                        Output("-Try to open door");
+                        Output("-Go through the window");
+                        Output("-Go back");
+                        room = 3;
+                    break;
+                }
         break;
             
         //look around old looking house
         case 5: 
-        switch (input.toLowerCase()) 
-            {
+            switch (input.toLowerCase()) 
+                {
+                    case "open hatch":
+                        Output("You try to open the hatch... It doesn't budge.");
+                        Output("-Try to open hatch");
+                        Output("-break hatch");
+                        Output("-go to door");
+                        Output("-go to window");
+                        Output("-go back");
+                        room = 5;
+                    break;
+                        
+                    case "break hatch":
+                        Output("You break down the hatch. You see a dark tunnel lead into the ground.");
+                        Output("-Go down?");
+                        Output("-go back to house?");
+                        room = 8;
+                    break;
+                        
+                    case "go to door":
+                        Output("You go to the door you try the door knob and it opens. You enter a small room with shelves filled with books and potions. In the center of the room is a cauldron.");
+                        Output("-take potions");
+                        Output("-take books");
+                        Output("-read books");
+                        room = 6;
+                    break;    
                     
-            }
+                    case "go to window":
+                        Output("You go through the window. You enter a small room with shelves filled with books and potions. In the center of the room is a cauldron.");
+                        Output("-take potions");
+                        Output("-take books");
+                        Output("-read books");
+                        room = 6;
+                    break;
+                        
+                    case "go back":
+                        Output("You go back");
+                        Output("-Go to old looking house");
+                        Output("-Go around old looking house");
+                        Output("-Look around old looking house");
+                        Output("-Go back to road");
+                        room = 1;
+                    break;
+                }
         break;
             
         //inside the old house
@@ -300,14 +356,37 @@ function preformAction() {
         case 7: 
         switch (input.toLowerCase()) 
             {
-                    
+                    case:
+                    Output("You go to the old looking house. There is a front door and a window next to it. The old looking house looks old and abandoned. There’s a weak looking door.");
+                    if (doorToHouse == false) {
+                        Output("-Go into house");
+                        Output("-Go through the window");
+                        Output("-Go back");
+                    }
+                    else {
+                        Output("-Break the door down");
+                        Output("-Try to open door");
+                        Output("-Go through the window");
+                        Output("-Go back");
+                    }
+                    room = 5;
+                    break;
             }
         break;
             
+        //Hatch
         case 8: 
         switch (input.toLowerCase()) 
             {
+                case "go down":
+                    Output("You go down, it stinks like rotten flesh down here. You hear a faint voice *please no more* You go towards the voice and see the silouhette of a young girl chained to the wall. *Who are you? Are you here to save me? You must be! there are keys on the post behind you. Hurry! before she comes back!* You look behind you and fumble around and find a hook with keys on the post. You hurry and unlock the restrainst on her. You both run out. The girl darts for the road you follow. *You have saved the princess from the old hag* *Congratulations on saving the princess you have won!*");
+                    Output("-Restart?");
+                    Output("-Quit?");
+                    room = 666;
+                break;
                     
+                case "go back to house":
+                    Output("");
             }
         break;
             
@@ -389,9 +468,9 @@ function preformAction() {
                     case "sorry":
                         Output("I am the only tree that can talk in this region. My fellow breathren have fallen to the darn humans who chopped us down and used us for there houses.");
                         Output("I am very old now and am near the end of the line. I would like you to have this.");
-                        Output("A sword seems to appear from thin air. It has runes along the blade. The tree goes on a long tangent on how he got the sword and ends with him telling you the swords name. *Sword of the fallen king*");
+                        Output("A sword seems to appear from thin air. It has runes along the blade. The tree goes on a long tangent on how he got the sword that ends with him telling you the swords name. *Sword of the fallen king*");
                         Output("You have obtained *Sword of the fallen king*");
-                        inventroy[1] = true;
+                        BladeoftheRuinedking = true;
                         treeAlive = false;
                         Output("-go north (to the road)");
                         Output("-go east (to the town)");
@@ -421,6 +500,7 @@ function preformAction() {
                         
                     case "quit":
                         Output("You quitter...");
+                        restart();
                     break;
                 }
         break;
@@ -473,128 +553,16 @@ function Achievement() {
 }
 
 function Reset() {
-    //makes the array for all the items in your inventory
-    for (var i = 0; i < inventory.length; ++i) { 
-            inventory[i] = false; 
-    }
-
-    //makes an array for inventorySize
-    for (var i = 0; i < inventorySize.length; ++i) { 
-            inventorySize[i] = false; 
-    }
-
     //makes an array for skills
     for (var i = 0; i < skills.length; ++i) { 
             skills[i] = false; 
     }
 }
 
-function InventoryManage(inventory) {
-    //Inventory at 0 is the BladeOfTheRuinedKing
-    var size = 0;
-    var item1, item2, item3, item4, item5 = null;
-    //Looks for the amount of stuff in your inventory
-    for (var i = 0; i < inventory.length; ++i){
-        if (inventory[i] != false)
-            {
-                size++;
-            }
-    }
-    //sets items to values
-    if (size < 6){
-        for (var i = 0; i < inventory.length; ++i){
-        if (inventory[i] != false)
-            {
-                if (item1 == null){
-                    item1 = inventory[i];
-                }
-                else if (item2 == null){
-                    item2 = inventory[i];
-                }
-                else if (item3 == null){
-                    item3 = inventory[i];
-                }
-                else if (item4 == null){
-                    item4 = inventory[i];
-                }
-                else if (item5 == null){
-                    item5 = inventory[i];
-                }
-            }
-        }
-    }
-    //makes sure you have less than 5 items then outputs the items on screen
-    switch(size) {
-        case 0:
-            var node = document.getElementById("item1");
-            switch(item1) {
-                case 0:
-                    node.innerHTML("Sword of the Ruined King");
-                break;
-                    
-                case 1:
-                
-                break;
-                    
-                case 2:
-                
-                break;
-                    
-                case 3:
-                
-                break;
-                    
-                case 4:
-                
-                break;
-                    
-                case 5:
-                
-                break;
-                    
-                case 6:
-                
-                break;
-                    
-                case 7:
-                
-                break;
-                    
-                case 8:
-                
-                break;
-                    
-                case 9:
-                
-                break;
-                
-                case 10:
-                    
-                break;
-            }
-             
-        break;
-            
-        case 1:
-                
-        break;
-            
-        case 2:
-                
-        break;
-            
-        case 3:
-                
-        break;
-            
-        case 4:
-                
-        break;
-            
-        default:
-            Output("Your inventory is full!");
-        break;
-    }
+function InventoryManage() {
+    if (BladeoftheRuinedking == true)
+       document.getElementById("item1").innerHTML = "Blade of the Ruined King";
+
 }
     
 
