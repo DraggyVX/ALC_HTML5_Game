@@ -1,14 +1,17 @@
 var input;
-var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 100, 150, 200, 666];
+var room = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,60, 61, 62, 63, 64, 65,              100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 100, 150, 200, 666];
 var skills = new Array(20);
-var inventory = ["BladeoftheRuinedking", "Sword"];
+var inventory = ["BladeoftheRuinedking", "Sword", "potions", "books"];
 var BladeoftheRuinedking = false;
 var deathCounter = 0;
-var acheievments = ["died-more-than-10", "died-more-than-100", "Friend-of-trees"];
+var acheievments = ["died-more-than-10", "died-more-than-100", "Friend-of-trees", "Seducer", "Princess-saver"];
 var element = document.getElementById("unorderedList");
 var treeAlive = true;
 var swordOfTree = false;
+var seducer = false;
+var princessSaved = false;
 var doorToHouse = true;
+var rngNum = Math.floor((Math.random() * 100) + 1);
 Reset();
 Game();
 
@@ -37,7 +40,7 @@ Game();
 //Starts the game
 function Game() {
     var PC = prompt("What is your name?");
-    Output("Hello " + PC + " I am the ghost that will be guilding you on your journey through this world!");
+    alert("Hello " + PC + " I am the ghost that will be guilding you on your journey through this world!");
     Output("Wakey Wakey its time to get up!");
     Output("You open your eyes, you are sitting under a tree. You look around and notice you are in a different world! Above you soars a giant red dragon. He seems to ignore you for you are just a tiny ant to him. You look around and in front of you going from east to west is a dirt road. Past the road is a swamp. On the dirt road going pretty fast is a wagon being pulled by a horse. The road leads to a big town. You look behind you and see you are under the only tree in a giant plain. You look to the east and see a lush forest.");
     Output("-go north (to the road)");
@@ -93,6 +96,10 @@ function preformAction() {
                         case "go to town":
                         case "go town":
                             Output("You follow the road and approach the town. The town is surrounded by a huge wall the only entrance you can see is through a giant gate.");
+                            Output("-go around the wall");
+                            Output("-try going through the gate");
+                            Output("-sneak into a carriage");
+                            Output("-go back to your tree");
                             room = 50;
                         break;
 
@@ -141,8 +148,10 @@ function preformAction() {
                     case "go into the swamp": //death
                     case "go to swamp":
                     case "go into swamp":
-                        Output("You get stuck in mud giant leeches come out from the water and eat you alive. *You have died*");
-                        Output("-restart?");
+                        Output("You get stuck in the mud. Giant leeches come out from the water and eat you alive.");
+                        Output("*You have died*");
+                        Output("-Restart?");
+                        Output("-Quit?")
                         room = 666;
                     break;
                         
@@ -285,6 +294,7 @@ function preformAction() {
                     break;
                         
                     case "break hatch":
+                    case "break down hatch":
                         Output("You break down the hatch. You see a dark tunnel lead into the ground.");
                         Output("-Go down?");
                         Output("-go back to house?");
@@ -323,9 +333,9 @@ function preformAction() {
         switch (input.toLowerCase()) 
             {
                 case "take potions":
-                    if (inventory[1] != true) {
+                    if (inventory["potions"] != true) {
                         Output("You take the potions");
-                        inventory[1] = true;
+                        inventory["potions"] = true;
                     }
                     else
                         Output("You already took the potions... idiot..");
@@ -333,9 +343,9 @@ function preformAction() {
                 break;
                     
                 case "take books":
-                    if (inventory[2] != true) {
+                    if (inventory["books"] != true) {
                         Output("You take the books");
-                        inventory[2] = true;
+                        inventory["books"] = true;
                     }
                     else 
                         Output("You already took the books... idiot..");
@@ -356,7 +366,7 @@ function preformAction() {
         case 7: 
         switch (input.toLowerCase()) 
             {
-                    case:
+                    case "":
                     Output("You go to the old looking house. There is a front door and a window next to it. The old looking house looks old and abandoned. There’s a weak looking door.");
                     if (doorToHouse == false) {
                         Output("-Go into house");
@@ -379,7 +389,9 @@ function preformAction() {
         switch (input.toLowerCase()) 
             {
                 case "go down":
-                    Output("You go down, it stinks like rotten flesh down here. You hear a faint voice *please no more* You go towards the voice and see the silouhette of a young girl chained to the wall. *Who are you? Are you here to save me? You must be! there are keys on the post behind you. Hurry! before she comes back!* You look behind you and fumble around and find a hook with keys on the post. You hurry and unlock the restrainst on her. You both run out. The girl darts for the road you follow. *You have saved the princess from the old hag* *Congratulations on saving the princess you have won!*");
+                    Output("You go down, it stinks like rotten flesh down here. You hear a faint voice *please no more* You go towards the voice and see the silouhette of a young girl chained to the wall. *Who are you? Are you here to save me? You must be! there are keys on the post behind you. Hurry! before she comes back!* You look behind you and fumble around and find a hook with keys on the post. You hurry and unlock the restrainst on her. You both run out. The girl darts for the road you follow. *You have saved the princess from the old hag*");
+                    Output("*Congratulations on saving the princess you have won!*");
+                    princessSaved = true;
                     Output("-Restart?");
                     Output("-Quit?");
                     room = 666;
@@ -423,6 +435,10 @@ function preformAction() {
                     break;
                     
                     case "try going through the gate":
+                    case "go through gate":
+                   case "go through the gate":
+                   case "try going through gate":
+                   case "gate":
                         Output("Halt! Let me see your papers!");
                         Output("A soldier in his early twenties approaches you.");
                         if (papers = true) {
@@ -435,16 +451,149 @@ function preformAction() {
                     break;
                         
                     case "sneak into a carriage":
-                        Output("You see a merchants carriage and jump inside. You look around it is dark and there are several crates.");
+                        Output("You see a merchant carriage and jump inside. You look around it is dark, but you are able to see a few crates.");
+                        Output("-Hide behind crates");
+                        Output("-Open crates");
+                        Output("-Start singing and dancing on the crates");
                         room = 53;
                     break;
                         
                     case "go back to your tree":
-                        Output("");
-                    break;
+                       Output("You wimp.. you go back to your tree. It is getting pretty late.");
+                       Output("-go north (to the road)");
+                       Output("-go east (to the town)");
+                       Output("-go south (to the plains)");
+                       Output("-go west (to the forest)");
+                       Output("-go back to sleep");
+                       room = 0;
+                   break;
+
                         
                 }
         break;
+                    
+        //Go around town wall
+       case 51:
+               switch (input.toLowerCase())
+               {
+                   case "try to go through the gate":
+                   case "go through gate":
+                   case "go through the gate":
+                   case "try going through gate":
+                   case "gate":
+                       Output("You try to walk through...");
+                       Output("Halt! Let me see your papers!");
+                       Output("A soldier in his early twenties approaches you.");
+                       Output("-run away");
+                       Output("-Try to seduce him");
+                       Output("-Convince him to let you through");
+                       room = 52;
+                   break;
+
+                   case"go around":
+                   case "around":
+                       Output("you walk around the wall to the other side and see another big gate.");
+                       Output("-try to go through the gate");
+                       Output("-keep going around");
+                       Output("-go back");
+                       room = 51;
+                   break;
+
+                   case"go back":
+                   case "back":
+                       Output("You go back to the road.");
+                       Output("-Go around the swamp?");
+                       Output("-Go into the swamp?");
+                       Output("-Go east on the road?");
+                       Output("-Go west on the road?");
+                       room = 1;
+                   break;
+               }
+       break;
+          
+       //Going through gate
+       case 52:
+           switch (input.toLowerCase())
+               {
+                   case "run away":
+                       Output("You try to run away. CATCH HIM!");
+                       Output("The soldier throws his spear. It hits your leg and you go down. You get carried to prison and are later prosecuted as a thief and executed.");
+                       Output("*You have died*");
+                       Output("-Restart?");
+                       Output("-Quit?");
+                       room = 666;
+                       deathCounter++;
+                   break;
+                  
+                   case "seduce soldier":
+                   case "seduce":
+                    let rngNum = Math.floor((Math.random() * 100) + 1);
+                       console.log(rngNum);
+                       if (rngNum > 50) {
+                           Output("You successfully seduce the soldier. You two get married and live happily ever after. ^-^");
+                           Output("*Seducer ending*");
+                           seducer = true;
+                           Output("-Restart?");
+                           Output("-Quit?");
+                           room = 666;
+                       }
+                       else {
+                           Output("The soldier looks at you in disgust and kills you on the spot.");
+                           Output("*You have died*");
+                           Output("-Restart?");
+                           Output("-Quit?");
+                           room = 666;
+                           deathCounter++;
+                       }
+                   break;
+
+                   case "convince soldier":
+                   case "convince":
+                       if (rngNum > 50) {
+                           Output("You sneak a gold coin into the soldiers hand. He looks away and you pass by without further problem.");
+                           Output("You arrive at the town, it is bustling with activity. You start heading towards a stall when a dragon carriage runs you over.");
+                           Output("*You have died*");
+                           Output("-Restart?");
+                           Output("-Quit?");
+                           room = 666;
+                           deathCounter++;
+                       }
+                       else {
+                           Output("You try to sneak a coin into the soldiers hand but end up handing him a banana.");
+                           Output("The soldier looks at you in disgust and kills you on the spot.");
+                           Output("*You have died*");
+                           Output("-Restart?");
+                           Output("-Quit?");
+                           room = 666;
+                           deathCounter++;
+                       }
+                   break;
+               }
+       break;
+
+       //Sneak onto a carriage
+       case 53:
+           switch (input.toLowerCase())
+               {
+                      
+               }
+       break;
+
+       //Inside the town
+       case 54:
+           switch (input.toLowerCase())
+               {
+                      
+               }
+       break;
+
+       case 55:
+           switch (input.toLowerCase())
+               {
+                      
+               }
+       break;
+
             
         case 100: //Into the plains (go south from start)
             switch (input.toLowerCase()) 
@@ -488,8 +637,8 @@ function preformAction() {
                     break;
                 }
             
-            
-        case 666: //When you die
+        //When you die 
+        case 666: 
             switch (input.toLowerCase())
                 {
                     case "restart":
@@ -499,6 +648,7 @@ function preformAction() {
                     break;
                         
                     case "quit":
+                        prompt("You sure you want to quit?");
                         Output("You quitter...");
                         restart();
                     break;
@@ -508,6 +658,7 @@ function preformAction() {
             
 }
 
+//Restarts the output text
 function restart() {
     while (element.hasChildNodes()) {
         element.removeChild(element.lastChild);
@@ -533,10 +684,11 @@ function Output(input) {
     document.getElementById("user-input").value = ""; 
 }
 
+//Manages achievements
 function Achievement() {
-    if (deathCounter == 1 && acheievments != "died-more-than-10") {
+    if (deathCounter == 10 && acheievments != "died-more-than-10") {
         var newListElement = document.createElement("li");
-        var node = document.createTextNode("Die more than 10 times.");
+        var node = document.createTextNode("-Die more than 10 times.");
         newListElement.appendChild(node);
         var element = document.getElementById("achievements");
         element.appendChild(newListElement);
@@ -544,25 +696,42 @@ function Achievement() {
     }
     else if (swordOfTree == true) {
         var newListElement = document.createElement("li");
-        var node = document.createTextNode("Friend of Trees");
+        var node = document.createTextNode("-Friend of Trees");
         newListElement.appendChild(node);
         var element = document.getElementById("achievements");
         element.appendChild(newListElement);
         swordOfTree = false;
     }
-}
-
-function Reset() {
-    //makes an array for skills
-    for (var i = 0; i < skills.length; ++i) { 
-            skills[i] = false; 
+    else if (princessSaved == true) {
+        var newListElement = document.createElement("li");
+        var node = document.createTextNode("-Princess Saver");
+        newListElement.appendChild(node);
+        var element = document.getElementById("achievements");
+        element.appendChild(newListElement);
+        princessSaved = false;
+    }
+    else if (seducer == true) {
+        var newListElement = document.createElement("li");
+        var node = document.createTextNode("-Seducer");
+        newListElement.appendChild(node);
+        var element = document.getElementById("achievements");
+        element.appendChild(newListElement);
+        seducer = false;
     }
 }
 
+//Resets inventory
+function Reset() {
+    //makes an array for skills
+    for (var i = 0; i < skills.length; ++i) { 
+            inventory[i] = false; 
+    }
+}
+
+//Manages inventory
 function InventoryManage() {
     if (BladeoftheRuinedking == true)
-       document.getElementById("item1").innerHTML = "Blade of the Ruined King";
+       document.getElementById("item1").innerHTML = "Blade of the Fallen King";
 
 }
     
-
